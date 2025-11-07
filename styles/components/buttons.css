@@ -1,0 +1,120 @@
+
+.btn,
+.btn-primary, 
+.btn-secondary, 
+.btn-project, 
+.btn-bot, 
+.submit-btn,
+.modal-return-btn {
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    text-decoration: none; 
+  
+    padding: 15px 30px; 
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: white; 
+    
+   
+    transition: all 0.3s ease;
+}
+
+
+.btn i,
+.btn-primary i,
+.btn-secondary i,
+.btn-project i,
+.btn-bot i,
+.submit-btn i {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+
+
+.btn-primary, 
+.btn-project,
+.btn-bot,
+.submit-btn {
+    background-color: var(--primary-color);
+    border: none;
+}
+.btn-primary:hover,
+.btn-project:hover,
+.btn-bot:hover,
+.submit-btn:hover {
+    background-color: var(--button-hover-bg);
+    transform: translateY(-3px); 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary,
+.secondary-bot-btn {
+    background: none;
+    color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+}
+body[data-theme="light"] .btn-secondary {
+    border-color: #606060; 
+    color: #606060;
+}
+.btn-secondary:hover,
+.secondary-bot-btn:hover {
+    background-color: var(--secondary-color);
+    color: white; 
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+.navbar .btn-primary {
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    font-size: 1em;
+    transform: none;
+    box-shadow: none;
+}
+.navbar .btn-primary:hover {
+    background-color: var(--button-hover-bg);
+}
+.navbar .btn-primary i {
+    margin-left: 5px;
+}
+
+.btn-project,
+.btn-bot {
+    padding: 10px 20px;
+    font-size: 0.95em;
+    border-radius: 8px;
+    
+}
+.btn-project i {
+    margin-left: 8px;
+}
+
+.submit-btn {
+    padding: 12px 30px;
+}
+
+
+.modal-return-btn {
+   
+    background-color: #606060; 
+    padding: 10px 25px;
+    font-size: 1em;
+    
+}
+.modal-return-btn:hover {
+    background-color: #4a4a4a; 
+    transform: none;
+    box-shadow: none;
+}
+.modal-return-btn i {
+    margin-right: 10px;
+    margin-left: 0;
+}

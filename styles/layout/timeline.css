@@ -1,0 +1,112 @@
+
+.timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: var(--primary-color);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+}
+
+
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit; 
+    width: 50%;
+}
+
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border: 4px solid var(--primary-color);
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+    background-color: var(--background-dark); 
+}
+body[data-theme="light"] .timeline-item::after {
+    background-color: var(--background-light);
+}
+
+
+.timeline-item:nth-child(odd) {
+    left: 0;
+}
+.timeline-item:nth-child(odd)::after {
+    right: -17px; 
+    left: auto; 
+}
+
+.timeline-item:nth-child(even) {
+    left: 50%;
+}
+.timeline-item:nth-child(even)::after {
+    left: -16px; 
+    right: auto;
+}
+
+
+.timeline-year {
+    position: absolute;
+    top: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5em;
+    font-weight: 700;
+   
+    color: var(--highlight-color);
+}
+
+.timeline-item:nth-child(odd) .timeline-year {
+    right: -100px; 
+    left: auto; 
+}
+.timeline-item:nth-child(even) .timeline-year {
+    left: -100px; 
+    right: auto; 
+}
+
+
+
+.timeline-description {
+    background-color: var(--card-background-dark);
+    padding: 20px 30px;
+    position: relative;
+    border-radius: 8px;
+    font-size: 1em;
+    text-align: left;
+    border: 1px solid var(--border-color-dark);
+}
+body[data-theme="light"] .timeline-description {
+    background-color: var(--card-background-light);
+    border: 1px solid var(--border-color-light);
+}
+
+.timeline-description h3 {
+    font-size: 1.2em;
+    color: var(--text-color-dark); 
+    margin-bottom: 5px;
+}
+body[data-theme="light"] .timeline-description h3 {
+    color: var(--text-color-light);
+}
+.timeline-description p {
+    color: #d4d4d4; 
+    font-size: 0.95em;
+}
+body[data-theme="light"] .timeline-description p {
+    color: #4a4a4a; 
+}

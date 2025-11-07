@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nolan Michot — Défi de Code (Pong)</title>
+
+    <link rel="stylesheet" href="styl.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+
+            --color-dark-bg: #0A0A0A;
+            --color-light-bg: #1A1A1A;
+            --color-text: #EBEBEB;
+            --color-text-dim: #A0A0A0;
+            --color-accent-primary: #00A3FF;
+            --color-accent-secondary: #00FFC2;
+        }
+
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            background-color: var(--color-dark-bg);
+            color: var(--color-text);
+        }
+
+        .game-header {
+            margin-bottom: 40px;
+        }
+
+
+        #pong-game-v2 {
+            width: 900px;
+            height: 500px;
+            background: #000000;
+            border: 3px solid var(--color-accent-primary);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 163, 255, 0.5);
+        }
+
+
+        .paddle-v2 {
+            position: absolute;
+            width: 15px;
+            height: 100px;
+            background-color: var(--color-accent-secondary);
+            border-radius: 5px;
+        }
+
+        #player-paddle-v2 {
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #ai-paddle-v2 {
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+
+        #ball-v2 {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background-color: var(--color-accent-primary);
+
+
+            background-image: url('image/face.webp');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 10px var(--color-accent-primary);
+            transition: box-shadow 0.1s;
+        }
+
+
+        #score-v2 {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            color: var(--color-text-dim);
+            font-size: 2em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+        }
+
+        #game-message-v2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--color-accent-secondary);
+            font-size: 3em;
+            text-shadow: 0 0 10px rgba(0, 255, 194, 0.8);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+
+        .return-link {
+            font-size: 1.1em;
+            margin-top: 30px;
+            color: var(--color-text-dim);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .return-link:hover {
+            color: var(--color-accent-secondary);
+        }
+
+
+        @media (max-width: 950px) {
+            #pong-game-v2 {
+                width: 95vw;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="game-header">
+        <h1>Défi de Code : Pong !</h1>
+        <p>Utilisez les touches **HAUT** et **BAS** (ou W/S) pour contrôler votre raquette (la gauche).</p>
+    </div>
+
+    <div id="pong-game-v2">
+        <div id="player-paddle-v2" class="paddle-v2"></div>
+        <div id="ai-paddle-v2" class="paddle-v2"></div>
+        <div id="ball-v2"></div>
+        <div id="score-v2">
+            <span id="player-score">0</span>
+            <span id="ai-score">0</span>
+        </div>
+        <div id="game-message-v2">Cliquez pour commencer !</div>
+    </div>
+
+    <a href="index.html" class="return-link">
+        <i class="fas fa-arrow-left"></i> Retour au Portfolio
+    </a>
+
+
+    <script>
+
+        const gameContainer = document.getElementById('pong-game-v2');
+        const playerPaddle = document.getElementById('player-paddle-v2');
+        const aiPaddle = document.getElementById('ai-paddle-v2');
+        const ball = document.getElementById('ball-v2');
+        const scorePlayer = document.getElementById('player-score');
+        const scoreAI = document.getElementById('ai-score');
+        const gameMessage = document.getElementById('game-message-v2');
+
+
+        let gameRunning = false;
+        let playerScore = 0;
+        let aiScore = 0;
+        const paddleSpeed = 8;
+        const maxScore = 5;
+
+
+        let ballX = 450;
+        let ballY = 250;
+        let ballSpeedX = 5;
+        let ballSpeedY = 5;
+        const ballSize = 40;
+        const paddleWidth = 15;
+        const paddleHeight = 100;
+
+        let keysPressed = {};
+
+
+        function updateGame() {
+            if (!gameRunning) {
+
+                handlePlayerMovement();
+                requestAnimationFrame(updateGame);
+                return;
+            }
+
+
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            if (ballY + ballSize > gameContainer.clientHeight || ballY < 0) {
+                ballSpeedY = -ballSpeedY;
+            }
+
+
+            handlePlayerMovement();
+            handleAIMovement();
+
+
+
+            if (ballX <= paddleWidth + 10 && ballY + ballSize > playerPaddle.offsetTop && ballY < playerPaddle.offsetTop + paddleHeight) {
+                ballSpeedX = -ballSpeedX;
+                ballSpeedY += (Math.random() * 1 - 0.5);
+            }
+
+            else if (ballX + ballSize >= gameContainer.clientWidth - paddleWidth - 10 && ballY + ballSize > aiPaddle.offsetTop && ballY < aiPaddle.offsetTop + paddleHeight) {
+                ballSpeedX = -ballSpeedX;
+                ballSpeedY += (Math.random() * 1 - 0.5);
+            }
+
+
+            if (ballX < 0) {
+                aiScore++;
+                scoreAI.textContent = aiScore;
+                resetBall();
+            } else if (ballX + ballSize > gameContainer.clientWidth) {
+                playerScore++;
+                scorePlayer.textContent = playerScore;
+                resetBall();
+            }
+
+
+            ball.style.left = ballX + 'px';
+            ball.style.top = ballY + 'px';
+
+
+            if (playerScore >= maxScore || aiScore >= maxScore) {
+                endGame();
+                return;
+            }
+
+            requestAnimationFrame(updateGame);
+        }
+
+        function handlePlayerMovement() {
+            let playerY = playerPaddle.offsetTop;
+
+
+            if (keysPressed['w'] || keysPressed['arrowup']) {
+                playerY -= paddleSpeed;
+            }
+
+            if (keysPressed['s'] || keysPressed['arrowdown']) {
+                playerY += paddleSpeed;
+            }
+
+
+            playerY = Math.max(0, Math.min(playerY, gameContainer.clientHeight - paddleHeight));
+            playerPaddle.style.top = playerY + 'px';
+        }
+
+        function handleAIMovement() {
+            let aiY = aiPaddle.offsetTop;
+            const centerPaddle = aiY + paddleHeight / 2;
+
+
+            if (ballSpeedX > 0) {
+                if (ballY > centerPaddle) {
+                    aiY += Math.min(paddleSpeed, ballY - centerPaddle);
+                } else if (ballY < centerPaddle) {
+                    aiY -= Math.min(paddleSpeed, centerPaddle - ballY);
+                }
+            }
+
+
+            aiY = Math.max(0, Math.min(aiY, gameContainer.clientHeight - paddleHeight));
+            aiPaddle.style.top = aiY + 'px';
+        }
+
+
+        function resetBall() {
+            ballX = gameContainer.clientWidth / 2 - ballSize / 2;
+            ballY = gameContainer.clientHeight / 2 - ballSize / 2;
+
+            ballSpeedX = (Math.random() < 0.5 ? 5 : -5);
+            ballSpeedY = (Math.random() * 5 + 3) * (Math.random() < 0.5 ? 1 : -1);
+
+            gameRunning = false;
+            gameMessage.textContent = 'Point! Cliquez pour continuer.';
+            ball.style.boxShadow = '0 0 15px var(--color-accent-secondary)';
+        }
+
+
+
+        function startGame() {
+            playerScore = 0;
+            aiScore = 0;
+            scorePlayer.textContent = playerScore;
+            scoreAI.textContent = aiScore;
+
+            resetBall();
+            gameMessage.textContent = 'Prêt ? Cliquez pour servir !';
+
+
+            if (!window.gameLoopStarted) {
+                window.gameLoopStarted = true;
+                requestAnimationFrame(updateGame);
+            }
+        }
+
+        function clickToServe() {
+
+            if (!gameRunning && gameMessage.textContent.includes('Cliquez')) {
+                gameRunning = true;
+                gameMessage.textContent = '';
+                ball.style.boxShadow = '0 0 15px var(--color-accent-primary)';
+            }
+        }
+
+        function endGame() {
+            gameRunning = false;
+            const winner = playerScore > aiScore ? 'BRAVO, VOUS AVEZ GAGNÉ !' : 'L\'IA A GAGNÉ, RÉESSAYEZ !';
+            gameMessage.textContent = `${winner} Score: ${playerScore} - ${aiScore}. Cliquez pour recommencer ?`;
+
+
+            gameContainer.addEventListener('click', startGame, { once: true });
+        }
+
+
+
+
+        gameContainer.addEventListener('click', clickToServe);
+
+
+
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.toLowerCase();
+            if (key === 'w' || key === 's' || key === 'arrowup' || key === 'arrowdown') {
+                keysPressed[key] = true;
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            const key = e.key.toLowerCase();
+            if (key === 'w' || key === 's' || key === 'arrowup' || key === 'arrowdown') {
+                keysPressed[key] = false;
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', startGame);
+    </script>
+
+</body>
+
+</html>

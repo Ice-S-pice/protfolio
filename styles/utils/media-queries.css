@@ -1,0 +1,276 @@
+@media (max-width: 992px) {
+
+    .section {
+        padding: 60px 4vw;
+    }
+
+    .section-title {
+        font-size: 2em;
+    }
+
+
+    .header {
+        padding: 15px 4vw;
+    }
+
+
+    .navbar {
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        box-sizing: border-box;
+
+
+        padding-top: 70px;
+        padding-bottom: 20px;
+
+
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+
+
+        flex-direction: column;
+        background-color: var(--background-dark);
+        box-shadow: none;
+        border-top: none;
+        z-index: 998;
+    }
+
+    body[data-theme="light"] .navbar {
+        background-color: var(--background-light);
+    }
+
+    .navbar.active {
+        transform: translateX(0);
+        display: flex;
+    }
+
+    .navbar .nav-link {
+        margin: 10px auto;
+        padding: 10px 20px;
+        text-align: center;
+        width: 90%;
+    }
+
+    .navbar .btn-primary {
+        margin: 10px auto;
+        width: fit-content;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .theme-floater {
+
+        top: auto;
+        transform: none;
+
+
+        bottom: 20px;
+        right: 20px;
+
+
+        flex-direction: row;
+    }
+
+
+    .hero h1 {
+        font-size: 3em;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1em;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .hero-actions .btn {
+        width: 80%;
+        max-width: 350px;
+    }
+
+    .about-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .about-text {
+        text-align: center;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .skills-block {
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .skills-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .projects-grid,
+    .bots-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+
+    .timeline::before {
+        left: 20px;
+    }
+
+    .timeline-item {
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 10px;
+    }
+
+    .timeline-item::after {
+        left: 14px;
+    }
+
+    .timeline-item:nth-child(even) {
+        left: 0;
+    }
+
+    .timeline-item:nth-child(even)::after {
+        left: 14px;
+    }
+
+    .timeline-year {
+        position: static;
+        text-align: left;
+        margin-bottom: 5px;
+        font-size: 1.2em;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-year,
+    .timeline-item:nth-child(even) .timeline-year {
+        right: auto;
+        left: auto;
+    }
+
+
+    .contact-form {
+        padding: 30px 4vw;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 600px;
+        padding: 25px;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .header {
+        padding: 15px 3vw;
+    }
+
+    .logo a {
+        font-size: 1.4em;
+    }
+
+    .section {
+        padding: 50px 3vw;
+    }
+
+    .section-title {
+        font-size: 1.6em;
+        margin-bottom: 30px;
+    }
+
+
+    .hero h1 {
+        font-size: 2.2em;
+    }
+
+    .hero-subtitle {
+        font-size: 1em;
+    }
+
+    .hero-actions .btn {
+        width: 95%;
+    }
+
+
+    .detail-grid {
+        gap: 15px;
+    }
+
+
+    .skills-content {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .projects-grid,
+    .bots-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+
+    .bot-actions {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .btn-bot {
+        width: 100%;
+    }
+
+
+    .submit-btn {
+        width: 100%;
+    }
+
+    .social-icon {
+        font-size: 1.6em;
+    }
+
+    .theme-floater {
+        top: auto;
+        transform: none;
+        padding: 8px 8px;
+        bottom: 10px;
+        right: 10px;
+        flex-direction: row;
+        border-radius: 8px;
+        gap: 10px;
+    }
+
+    .theme-button {
+        min-height: 30px;
+        padding: 5px 8px;
+        font-size: 0.8em;
+    }
+
+    .color-button {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
