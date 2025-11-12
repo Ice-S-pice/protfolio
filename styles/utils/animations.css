@@ -1,20 +1,11 @@
-/* ========================================= */
-/* 💫 UTILS/ANIMATIONS: Définition des animations génériques (sur scroll) */
-/* ========================================= */
 
-/* ----------------------------------------- */
-/* 1. ANIMATION GLISSEMENT VERS LE HAUT (Slide Up) */
-/* ----------------------------------------- */
-
-/* État initial (masqué et décalé) */
 .animate-slide-up {
     opacity: 0;
     transform: translateY(50px);
-    /* Définit la durée et la courbe de l'animation */
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
-/* État visible (déclenché par JavaScript) */
+
 .animate-slide-up.visible {
     opacity: 1;
     transform: translateY(0);
